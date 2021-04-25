@@ -1,0 +1,7 @@
+## JMH Kotlin performance benchmarks
+
+Run:
+`gradle jmh`
+
+To rerun:
+`pkill -f '.*GradleDaemon.*'`
