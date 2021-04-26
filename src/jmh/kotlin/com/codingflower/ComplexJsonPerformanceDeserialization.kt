@@ -9,7 +9,7 @@ import org.openjdk.jmh.annotations.Level
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.infra.Blackhole
 
-open class ComplexJsonPerformanceDeserialization: BenchmarkProperties() {
+open class ComplexJsonPerformanceDeserialization : BenchmarkProperties() {
     private val jackson = jacksonObjectMapper()
     private val gson = Gson()
     private val kotlinx = Json
