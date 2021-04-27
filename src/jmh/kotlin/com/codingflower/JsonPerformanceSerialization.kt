@@ -1,5 +1,6 @@
 package com.codingflower
 
+import com.beust.klaxon.Klaxon
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.gson.Gson
 import kotlinx.serialization.encodeToString
@@ -33,8 +34,14 @@ open class JsonPerformanceSerialization : BenchmarkProperties() {
     }
 
     @Benchmark
-    fun kotlin(bl: Blackhole) {
+    fun kotlinx(bl: Blackhole) {
         val text = kotlinx.encodeToString(simpleJson)
+        bl.consume(text)
+    }
+
+    @Benchmark
+    fun klaxon(bl: Blackhole) {
+        val text = Klaxon().toJsonString(simpleJson)
         bl.consume(text)
     }
 }

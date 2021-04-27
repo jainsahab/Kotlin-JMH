@@ -45,6 +45,9 @@ dependencies {
 
     // Kotlinx
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
+
+    // Klaxon
+    implementation 'com.beust:klaxon:5.5'
 }
 
 jmh {
