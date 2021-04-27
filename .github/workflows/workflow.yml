@@ -8,9 +8,16 @@ jobs:
     name: Run benchmark
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set Up JDK 1.8
+        uses: actions/setup-java@v1
         with:
-          distribution: 'adopt'
-          java-version: '8'
-      - run: ./gradlew clean jmh
+          java-version: 1.8
+      - name: Run benchmark
+        run: bash ./gradlew clean jmh
+      - name: Archive benchmark report
+        uses: actions/upload-artifact@v2
+        with:
+          name: benchmark-reports
+          path: build/reports/jmh/results.JSON
