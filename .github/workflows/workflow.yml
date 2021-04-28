@@ -5,7 +5,7 @@ on:
       - '*'
 jobs:
   throughput_run_benchmark:
-    name: Run {{env.BENCHMARK_MODE}} benchmark
+    name: Run throughput benchmark
     runs-on: macos-latest
     env:
       BENCHMARK_MODE: thrpt
@@ -16,16 +16,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Run {{env.BENCHMARK_MODE}} benchmark
+      - name: Run throughput benchmark
         run: bash ./gradlew clean jmh
-      - name: Archive {{env.BENCHMARK_MODE}} benchmark report
+      - name: Archive throughput benchmark report
         uses: actions/upload-artifact@v2
         with:
           name: "{{env.BENCHMARK_MODE}}-benchmark-reports"
           path: build/reports/jmh
 
   sampling_run_benchmark:
-    name: Run {{env.BENCHMARK_MODE}} benchmark
+    name: Run sampling benchmark
     runs-on: macos-latest
     env:
       BENCHMARK_MODE: sample
@@ -36,9 +36,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Run {{env.BENCHMARK_MODE}} benchmark
+      - name: Run sampling benchmark
         run: bash ./gradlew clean jmh
-      - name: Archive {{env.BENCHMARK_MODE}} benchmark report
+      - name: Archive sampling benchmark report
         uses: actions/upload-artifact@v2
         with:
           name: "{{env.BENCHMARK_MODE}}-benchmark-reports"
