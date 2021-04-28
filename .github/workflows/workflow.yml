@@ -20,4 +20,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: benchmark-reports
-          path: build/reports/jmh/results.JSON
+          path: build/reports/jmh

@@ -53,6 +53,8 @@ dependencies {
 jmh {
     resultsFile = project.file("${project.buildDir}/reports/jmh/results.JSON")
     resultFormat = 'JSON'
+    threads = 4
+    humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt")
 //    profilers = ['async']
 }
 tasks {
