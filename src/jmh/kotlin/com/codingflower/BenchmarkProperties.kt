@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.*
 import org.openjdk.jmh.annotations.Mode.*
 import java.util.concurrent.TimeUnit
 
-@BenchmarkMode(value = [AverageTime, SampleTime])
 @Warmup(iterations = 1)
 @Measurement(iterations = 2, batchSize = 1)
 @State(Scope.Thread)

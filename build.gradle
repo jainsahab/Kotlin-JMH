@@ -54,6 +54,7 @@ dependencies {
 
 jmh {
     include = ['ComplexJsonPerformanceList.+']
+    benchmarkMode = ["$System.env.BENCHMARK_MODE".toString()]
     resultsFile = project.file("${project.buildDir}/reports/jmh/result.json")
     resultFormat = 'JSON'
     threads = 4
