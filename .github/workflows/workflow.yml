@@ -21,7 +21,7 @@ jobs:
       - name: Archive throughput benchmark report
         uses: actions/upload-artifact@v2
         with:
-          name: "{{env.BENCHMARK_MODE}}-benchmark-reports"
+          name: benchmark-throughput-reports
           path: build/reports/jmh
 
   sampling_run_benchmark:
@@ -41,5 +41,5 @@ jobs:
       - name: Archive sampling benchmark report
         uses: actions/upload-artifact@v2
         with:
-          name: "{{env.BENCHMARK_MODE}}-benchmark-reports"
+          name: benchmark-sampling-reports
           path: build/reports/jmh
