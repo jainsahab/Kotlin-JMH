@@ -8,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "me.champeau.gradle:jmh-gradle-plugin:0.5.0"
+        classpath "gradle.plugin.io.morethan.jmhreport:gradle-jmh-report:0.9.0"
     }
 }
 
@@ -17,6 +18,7 @@ plugins {
     id 'application'
 }
 apply plugin: "me.champeau.gradle.jmh"
+apply plugin: "io.morethan.jmhreport"
 
 group = 'codingflower.com'
 version = '1.0-SNAPSHOT'
@@ -52,12 +54,20 @@ dependencies {
 
 jmh {
     include = ['ComplexJsonPerformanceList.+']
-    resultsFile = project.file("${project.buildDir}/reports/jmh/results.csv")
-    resultFormat = 'CSV'
+    resultsFile = project.file("${project.buildDir}/reports/jmh/result.json")
+    resultFormat = 'JSON'
     threads = 4
 //    humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt")
 //    profilers = ['async']
 }
+
+jmhReport {
+    jmhResultPath = project.file("${project.buildDir}/reports/jmh/result.json")
+    jmhReportOutput = project.file('build/reports/jmh')
+}
+
+tasks.jmh.finalizedBy tasks.jmhReport
+
 tasks {
     jmhJar {
         exclude("META-INF/versions/9/module-info.class")
