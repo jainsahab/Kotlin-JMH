@@ -21,7 +21,7 @@ jobs:
       - name: Archive {{env.BENCHMARK_MODE}} benchmark report
         uses: actions/upload-artifact@v2
         with:
-          name: {{env.BENCHMARK_MODE}}-benchmark-reports
+          name: "{{env.BENCHMARK_MODE}}-benchmark-reports"
           path: build/reports/jmh
 
   sampling_run_benchmark:
@@ -41,5 +41,5 @@ jobs:
       - name: Archive {{env.BENCHMARK_MODE}} benchmark report
         uses: actions/upload-artifact@v2
         with:
-          name: {{env.BENCHMARK_MODE}}-benchmark-reports
+          name: "{{env.BENCHMARK_MODE}}-benchmark-reports"
           path: build/reports/jmh
