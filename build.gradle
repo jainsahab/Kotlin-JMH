@@ -51,10 +51,11 @@ dependencies {
 }
 
 jmh {
-    resultsFile = project.file("${project.buildDir}/reports/jmh/results.JSON")
-    resultFormat = 'JSON'
+    include = ['ComplexJsonPerformanceList.+']
+    resultsFile = project.file("${project.buildDir}/reports/jmh/results.csv")
+    resultFormat = 'CSV'
     threads = 4
-    humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt")
+//    humanOutputFile = project.file("${project.buildDir}/reports/jmh/human.txt")
 //    profilers = ['async']
 }
 tasks {
