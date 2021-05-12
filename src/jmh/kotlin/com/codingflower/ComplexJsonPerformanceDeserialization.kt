@@ -1,5 +1,6 @@
 package com.codingflower
 
+import argo.jdom.JdomParser
 import com.beust.klaxon.Klaxon
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.gson.Gson
@@ -20,6 +21,7 @@ open class ComplexJsonPerformanceDeserialization : BenchmarkProperties() {
         .addLast(KotlinJsonAdapterFactory())
         .build()
     private val moshiJsonAdapter = moshi.adapter(ComplexJson::class.java)
+    private val jdomParser = JdomParser()
 
     private lateinit var complexText: String
 
@@ -55,6 +57,12 @@ open class ComplexJsonPerformanceDeserialization : BenchmarkProperties() {
     @Benchmark
     fun moshiComplex(bl: Blackhole) {
         val simpleJson = moshiJsonAdapter.fromJson(complexText)
+        bl.consume(simpleJson)
+    }
+
+    @Benchmark
+    fun argoComplex(bl: Blackhole) {
+        val simpleJson = jdomParser.parse(complexText)
         bl.consume(simpleJson)
     }
 }
