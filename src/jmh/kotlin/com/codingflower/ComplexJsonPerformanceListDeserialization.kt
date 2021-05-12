@@ -5,18 +5,30 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types.newParameterizedType
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Level
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.infra.Blackhole
-import java.io.File
 
 open class ComplexJsonPerformanceListDeserialization : BenchmarkProperties() {
     private val jackson = jacksonObjectMapper()
     private val gson = Gson()
     private val kotlinx = Json
+    private val moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory())
+        .build()
+    private val moshiJsonAdapter = moshi.adapter<List<ComplexJson>>(
+        newParameterizedType(
+            List::class.java,
+            ComplexJson::class.java
+        )
+    )
+
 
     private lateinit var complexText: String
 
@@ -32,21 +44,27 @@ open class ComplexJsonPerformanceListDeserialization : BenchmarkProperties() {
     }
 
     @Benchmark
-    fun gson(bl: Blackhole) {
+    fun gsonComplex(bl: Blackhole) {
         val itemType = object : TypeToken<List<ComplexJson>>() {}.type
         val simpleJsons = gson.fromJson<List<ComplexJson>>(complexText, itemType)
         bl.consume(simpleJsons)
     }
 
     @Benchmark
-    fun kotlinx(bl: Blackhole) {
+    fun kotlinxComplex(bl: Blackhole) {
         val simpleJsons = kotlinx.decodeFromString<List<ComplexJson>>(complexText)
         bl.consume(simpleJsons)
     }
 
     @Benchmark
-    fun klaxon(bl: Blackhole) {
+    fun klaxonComplex(bl: Blackhole) {
         val simpleJsons = Klaxon().parseArray<List<ComplexJson>>(complexText)
+        bl.consume(simpleJsons)
+    }
+
+    @Benchmark
+    fun moshiComplex(bl: Blackhole) {
+        val simpleJsons = moshiJsonAdapter.fromJson(complexText)
         bl.consume(simpleJsons)
     }
 }

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types.newParameterizedType
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -16,6 +19,15 @@ open class JsonPerformanceListDeserialization : BenchmarkProperties() {
     private val jackson = jacksonObjectMapper()
     private val gson = Gson()
     private val kotlinx = Json
+    private val moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory())
+        .build()
+    private val moshiJsonAdapter = moshi.adapter<List<SimpleJson>>(
+        newParameterizedType(
+            List::class.java,
+            SimpleJson::class.java
+        )
+    )
 
     private lateinit var text: String
 
@@ -51,6 +63,12 @@ open class JsonPerformanceListDeserialization : BenchmarkProperties() {
     @Benchmark
     fun klaxon(bl: Blackhole) {
         val simpleJsons = Klaxon().parseArray<List<SimpleJson>>(text)
+        bl.consume(simpleJsons)
+    }
+
+    @Benchmark
+    fun moshi(bl: Blackhole) {
+        val simpleJsons = moshiJsonAdapter.fromJson(text)
         bl.consume(simpleJsons)
     }
 }

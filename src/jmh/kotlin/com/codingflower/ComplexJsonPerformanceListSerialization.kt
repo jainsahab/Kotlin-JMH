@@ -3,6 +3,9 @@ package com.codingflower
 import com.beust.klaxon.Klaxon
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.gson.Gson
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.openjdk.jmh.annotations.Benchmark
@@ -14,6 +17,16 @@ open class ComplexJsonPerformanceListSerialization : BenchmarkProperties() {
     private val jackson = jacksonObjectMapper()
     private val gson = Gson()
     private val kotlinx = Json
+    private val moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory())
+        .build()
+    private val moshiJsonAdapter = moshi.adapter<List<ComplexJson>>(
+        Types.newParameterizedType(
+            List::class.java,
+            ComplexJson::class.java
+        )
+    )
+
 
     private lateinit var complexJsons: List<ComplexJson>
 
@@ -71,6 +84,12 @@ open class ComplexJsonPerformanceListSerialization : BenchmarkProperties() {
     @Benchmark
     fun klaxonComplex(bl: Blackhole) {
         val text = Klaxon().toJsonString(complexJsons)
+        bl.consume(text)
+    }
+
+    @Benchmark
+    fun moshiComplex(bl: Blackhole) {
+        val text = moshiJsonAdapter.toJson(complexJsons)
         bl.consume(text)
     }
 }
