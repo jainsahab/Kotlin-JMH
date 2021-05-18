@@ -1,7 +1,10 @@
-package com.codingflower
+package com.codingflower.deserialization
 
 import argo.jdom.JdomParser
 import com.beust.klaxon.Klaxon
+import com.codingflower.BenchmarkProperties
+import com.codingflower.Resources
+import com.codingflower.SimpleJson
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson

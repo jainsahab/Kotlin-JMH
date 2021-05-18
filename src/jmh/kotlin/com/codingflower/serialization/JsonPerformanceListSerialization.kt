@@ -1,6 +1,8 @@
-package com.codingflower
+package com.codingflower.serialization
 
 import com.beust.klaxon.Klaxon
+import com.codingflower.BenchmarkProperties
+import com.codingflower.SimpleJson
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.gson.Gson
 import com.squareup.moshi.Moshi
